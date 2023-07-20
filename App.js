@@ -6,29 +6,29 @@ import Onboarding from "./screens/Onboarding";
 import Profile from "./screens/Profile";
 import SplashScreen from "./screens/SplashScreen";
 import Home from "./screens/Homescreen";
-import { StatusBar } from "expo-status-bar"; 
+import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "./contexts/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
+const reducer = (prevState, action) => {
+  switch (action.type) {
+    case "onboard":
+      return {
+        ...prevState,
+        isLoading: false,
+        isOnboardingCompleted: action.isOnboardingCompleted,
+      };
+  }
+};
+const initialState = {
+  isLoading: true,
+  isOnboardingCompleted: false,
+};
+
 export default function App({ navigation }) {
-  const [state, dispatch] = useReducer(
-    (prevState, action) => {
-      switch (action.type) {
-        case "onboard":
-          return {
-            ...prevState,
-            isLoading: false,
-            isOnboardingCompleted: action.isOnboardingCompleted,
-          };
-      }
-    },
-    {
-      isLoading: true,
-      isOnboardingCompleted: false,
-    }
-  );
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     (async () => {
@@ -52,7 +52,7 @@ export default function App({ navigation }) {
 
   const authContext = useMemo(
     () => ({
-      onboard: async data => {
+      onboard: async (data) => {
         try {
           const jsonValue = JSON.stringify(data);
           await AsyncStorage.setItem("profile", jsonValue);
@@ -62,7 +62,7 @@ export default function App({ navigation }) {
 
         dispatch({ type: "onboard", isOnboardingCompleted: true });
       },
-      update: async data => {
+      update: async (data) => {
         try {
           const jsonValue = JSON.stringify(data);
           await AsyncStorage.setItem("profile", jsonValue);

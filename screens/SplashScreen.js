@@ -1,14 +1,9 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, ActivityIndicator } from "react-native";
 
 const SplashScreen = () => {
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require("../img/littleLemonLogo.png")}
-      />
-    </View>
+    <ActivityIndicator color={"pink"} size={100} style={styles.container} />
   );
 };
 
@@ -18,11 +13,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-  },
-  logo: {
-    height: 100,
-    width: "90%",
-    resizeMode: "contain",
   },
 });
 
